@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище baseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Chlenstvo">
+    <Key>
+      <PropertyRef Name="NBileta" />
+    </Key>
+    <Property Name="NBileta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="data_vstuplenia" Type="date" />
+    <Property Name="data_vihoda" Type="date" Nullable="false" />
+    <Property Name="id_oplary" Type="int" />
+    <Property Name="id_student" Type="int" />
+  </EntityType>
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="id_faculty" />
+    </Key>
+    <Property Name="id_faculty" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_faculty" Type="nchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="id_group" />
+    </Key>
+    <Property Name="id_group" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_group" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_faculty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Oplata">
+    <Key>
+      <PropertyRef Name="id_oplata" />
+    </Key>
+    <Property Name="id_oplata" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NBileta" Type="int" />
+    <Property Name="Nzaezda" Type="int" />
+    <Property Name="god_oplaty" Type="date" />
+    <Property Name="status_oplaty" Type="nchar" MaxLength="10" />
+    <Property Name="id_oplaty" Type="nchar" MaxLength="10" />
+    <Property Name="id_perioda" Type="int" />
+  </EntityType>
+  <EntityType Name="Period">
+    <Key>
+      <PropertyRef Name="id_perioda" />
+    </Key>
+    <Property Name="id_perioda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nazvanie_period" Type="nvarchar" MaxLength="50" />
+    <Property Name="nachalo_per" Type="date" />
+    <Property Name="konec_per" Type="date" />
+  </EntityType>
+  <EntityType Name="Pytevka">
+    <Key>
+      <PropertyRef Name="id_pytevka" />
+    </Key>
+    <Property Name="id_pytevka" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NBileta" Type="int" />
+    <Property Name="Nzaezda" Type="int" />
+    <Property Name="god" Type="date" />
+    <Property Name="nachalo_zaezda" Type="date" />
+    <Property Name="konec_zaezda" Type="date" />
+    <Property Name="status_oplaty" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="idStudent" />
+    </Key>
+    <Property Name="idStudent" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar" MaxLength="100" />
+    <Property Name="data_birth" Type="date" />
+    <Property Name="Obrazovanie" Type="nvarchar" MaxLength="50" />
+    <Property Name="Adres" Type="nvarchar" MaxLength="50" />
+    <Property Name="Telephone" Type="int" />
+    <Property Name="NBileta" Type="int" />
+    <Property Name="id_group" Type="int" />
+    <Property Name="other_info" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Group_Faculty">
+    <End Role="Faculty" Type="Self.Faculty" Multiplicity="1" />
+    <End Role="Group" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faculty">
+        <PropertyRef Name="id_faculty" />
+      </Principal>
+      <Dependent Role="Group">
+        <PropertyRef Name="id_faculty" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Oplata_Period">
+    <End Role="Period" Type="Self.Period" Multiplicity="0..1" />
+    <End Role="Oplata" Type="Self.Oplata" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Period">
+        <PropertyRef Name="id_perioda" />
+      </Principal>
+      <Dependent Role="Oplata">
+        <PropertyRef Name="id_perioda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pytevka_Chlenstvo">
+    <End Role="Chlenstvo" Type="Self.Chlenstvo" Multiplicity="0..1" />
+    <End Role="Pytevka" Type="Self.Pytevka" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chlenstvo">
+        <PropertyRef Name="NBileta" />
+      </Principal>
+      <Dependent Role="Pytevka">
+        <PropertyRef Name="NBileta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Chlenstvo">
+    <End Role="Chlenstvo" Type="Self.Chlenstvo" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chlenstvo">
+        <PropertyRef Name="NBileta" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="NBileta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Group">
+    <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="id_group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="Хранилище baseModelContainer">
+    <EntitySet Name="Chlenstvo" EntityType="Self.Chlenstvo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Faculty" EntityType="Self.Faculty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Oplata" EntityType="Self.Oplata" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Period" EntityType="Self.Period" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pytevka" EntityType="Self.Pytevka" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Group_Faculty" Association="Self.FK_Group_Faculty">
+      <End Role="Faculty" EntitySet="Faculty" />
+      <End Role="Group" EntitySet="Group" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Oplata_Period" Association="Self.FK_Oplata_Period">
+      <End Role="Period" EntitySet="Period" />
+      <End Role="Oplata" EntitySet="Oplata" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pytevka_Chlenstvo" Association="Self.FK_Pytevka_Chlenstvo">
+      <End Role="Chlenstvo" EntitySet="Chlenstvo" />
+      <End Role="Pytevka" EntitySet="Pytevka" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Chlenstvo" Association="Self.FK_Student_Chlenstvo">
+      <End Role="Chlenstvo" EntitySet="Chlenstvo" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Group" Association="Self.FK_Student_Group">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

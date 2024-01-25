@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="baseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Chlenstvo">
+    <Key>
+      <PropertyRef Name="NBileta" />
+    </Key>
+    <Property Name="NBileta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="data_vstuplenia" Type="DateTime" Precision="0" />
+    <Property Name="data_vihoda" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="id_oplary" Type="Int32" />
+    <Property Name="id_student" Type="Int32" />
+    <NavigationProperty Name="Pytevkas" Relationship="Self.FK_Pytevka_Chlenstvo" FromRole="Chlenstvo" ToRole="Pytevka" />
+    <NavigationProperty Name="Students" Relationship="Self.FK_Student_Chlenstvo" FromRole="Chlenstvo" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="id_faculty" />
+    </Key>
+    <Property Name="id_faculty" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_faculty" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Groups" Relationship="Self.FK_Group_Faculty" FromRole="Faculty" ToRole="Group" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="id_group" />
+    </Key>
+    <Property Name="id_group" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_group" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="id_faculty" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Faculty" Relationship="Self.FK_Group_Faculty" FromRole="Group" ToRole="Faculty" />
+    <NavigationProperty Name="Students" Relationship="Self.FK_Student_Group" FromRole="Group" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Oplata">
+    <Key>
+      <PropertyRef Name="id_oplata" />
+    </Key>
+    <Property Name="id_oplata" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NBileta" Type="Int32" />
+    <Property Name="Nzaezda" Type="Int32" />
+    <Property Name="god_oplaty" Type="DateTime" Precision="0" />
+    <Property Name="status_oplaty" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="id_oplaty" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="id_perioda" Type="Int32" />
+    <NavigationProperty Name="Period" Relationship="Self.FK_Oplata_Period" FromRole="Oplata" ToRole="Period" />
+  </EntityType>
+  <EntityType Name="Period">
+    <Key>
+      <PropertyRef Name="id_perioda" />
+    </Key>
+    <Property Name="id_perioda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nazvanie_period" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nachalo_per" Type="DateTime" Precision="0" />
+    <Property Name="konec_per" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Oplatas" Relationship="Self.FK_Oplata_Period" FromRole="Period" ToRole="Oplata" />
+  </EntityType>
+  <EntityType Name="Pytevka">
+    <Key>
+      <PropertyRef Name="id_pytevka" />
+    </Key>
+    <Property Name="id_pytevka" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NBileta" Type="Int32" />
+    <Property Name="Nzaezda" Type="Int32" />
+    <Property Name="god" Type="DateTime" Precision="0" />
+    <Property Name="nachalo_zaezda" Type="DateTime" Precision="0" />
+    <Property Name="konec_zaezda" Type="DateTime" Precision="0" />
+    <Property Name="status_oplaty" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Chlenstvo" Relationship="Self.FK_Pytevka_Chlenstvo" FromRole="Pytevka" ToRole="Chlenstvo" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="idStudent" />
+    </Key>
+    <Property Name="idStudent" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="data_birth" Type="DateTime" Precision="0" />
+    <Property Name="Obrazovanie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Adres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="Int32" />
+    <Property Name="NBileta" Type="Int32" />
+    <Property Name="id_group" Type="Int32" />
+    <Property Name="other_info" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Chlenstvo" Relationship="Self.FK_Student_Chlenstvo" FromRole="Student" ToRole="Chlenstvo" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Student_Group" FromRole="Student" ToRole="Group" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Pytevka_Chlenstvo">
+    <End Role="Chlenstvo" Type="Self.Chlenstvo" Multiplicity="0..1" />
+    <End Role="Pytevka" Type="Self.Pytevka" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chlenstvo">
+        <PropertyRef Name="NBileta" />
+      </Principal>
+      <Dependent Role="Pytevka">
+        <PropertyRef Name="NBileta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Chlenstvo">
+    <End Role="Chlenstvo" Type="Self.Chlenstvo" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chlenstvo">
+        <PropertyRef Name="NBileta" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="NBileta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Group_Faculty">
+    <End Role="Faculty" Type="Self.Faculty" Multiplicity="1" />
+    <End Role="Group" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faculty">
+        <PropertyRef Name="id_faculty" />
+      </Principal>
+      <Dependent Role="Group">
+        <PropertyRef Name="id_faculty" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Group">
+    <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="id_group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Oplata_Period">
+    <End Role="Period" Type="Self.Period" Multiplicity="0..1" />
+    <End Role="Oplata" Type="Self.Oplata" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Period">
+        <PropertyRef Name="id_perioda" />
+      </Principal>
+      <Dependent Role="Oplata">
+        <PropertyRef Name="id_perioda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="baseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Chlenstvoes" EntityType="Self.Chlenstvo" />
+    <EntitySet Name="Faculties" EntityType="Self.Faculty" />
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="Oplatas" EntityType="Self.Oplata" />
+    <EntitySet Name="Periods" EntityType="Self.Period" />
+    <EntitySet Name="Pytevkas" EntityType="Self.Pytevka" />
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_Pytevka_Chlenstvo" Association="Self.FK_Pytevka_Chlenstvo">
+      <End Role="Chlenstvo" EntitySet="Chlenstvoes" />
+      <End Role="Pytevka" EntitySet="Pytevkas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Chlenstvo" Association="Self.FK_Student_Chlenstvo">
+      <End Role="Chlenstvo" EntitySet="Chlenstvoes" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Group_Faculty" Association="Self.FK_Group_Faculty">
+      <End Role="Faculty" EntitySet="Faculties" />
+      <End Role="Group" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Group" Association="Self.FK_Student_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Oplata_Period" Association="Self.FK_Oplata_Period">
+      <End Role="Period" EntitySet="Periods" />
+      <End Role="Oplata" EntitySet="Oplatas" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(baseModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(baseModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

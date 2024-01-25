@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище baseModelContainer" CdmEntityContainer="baseEntities">
+    <EntitySetMapping Name="Chlenstvoes">
+      <EntityTypeMapping TypeName="baseModel.Chlenstvo">
+        <MappingFragment StoreEntitySet="Chlenstvo">
+          <ScalarProperty Name="NBileta" ColumnName="NBileta" />
+          <ScalarProperty Name="data_vstuplenia" ColumnName="data_vstuplenia" />
+          <ScalarProperty Name="data_vihoda" ColumnName="data_vihoda" />
+          <ScalarProperty Name="id_oplary" ColumnName="id_oplary" />
+          <ScalarProperty Name="id_student" ColumnName="id_student" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Faculties">
+      <EntityTypeMapping TypeName="baseModel.Faculty">
+        <MappingFragment StoreEntitySet="Faculty">
+          <ScalarProperty Name="id_faculty" ColumnName="id_faculty" />
+          <ScalarProperty Name="name_faculty" ColumnName="name_faculty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="baseModel.Group">
+        <MappingFragment StoreEntitySet="Group">
+          <ScalarProperty Name="id_group" ColumnName="id_group" />
+          <ScalarProperty Name="name_group" ColumnName="name_group" />
+          <ScalarProperty Name="id_faculty" ColumnName="id_faculty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Oplatas">
+      <EntityTypeMapping TypeName="baseModel.Oplata">
+        <MappingFragment StoreEntitySet="Oplata">
+          <ScalarProperty Name="id_oplata" ColumnName="id_oplata" />
+          <ScalarProperty Name="NBileta" ColumnName="NBileta" />
+          <ScalarProperty Name="Nzaezda" ColumnName="Nzaezda" />
+          <ScalarProperty Name="god_oplaty" ColumnName="god_oplaty" />
+          <ScalarProperty Name="status_oplaty" ColumnName="status_oplaty" />
+          <ScalarProperty Name="id_oplaty" ColumnName="id_oplaty" />
+          <ScalarProperty Name="id_perioda" ColumnName="id_perioda" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Periods">
+      <EntityTypeMapping TypeName="baseModel.Period">
+        <MappingFragment StoreEntitySet="Period">
+          <ScalarProperty Name="id_perioda" ColumnName="id_perioda" />
+          <ScalarProperty Name="nazvanie_period" ColumnName="nazvanie_period" />
+          <ScalarProperty Name="nachalo_per" ColumnName="nachalo_per" />
+          <ScalarProperty Name="konec_per" ColumnName="konec_per" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pytevkas">
+      <EntityTypeMapping TypeName="baseModel.Pytevka">
+        <MappingFragment StoreEntitySet="Pytevka">
+          <ScalarProperty Name="id_pytevka" ColumnName="id_pytevka" />
+          <ScalarProperty Name="NBileta" ColumnName="NBileta" />
+          <ScalarProperty Name="Nzaezda" ColumnName="Nzaezda" />
+          <ScalarProperty Name="god" ColumnName="god" />
+          <ScalarProperty Name="nachalo_zaezda" ColumnName="nachalo_zaezda" />
+          <ScalarProperty Name="konec_zaezda" ColumnName="konec_zaezda" />
+          <ScalarProperty Name="status_oplaty" ColumnName="status_oplaty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Students">
+      <EntityTypeMapping TypeName="baseModel.Student">
+        <MappingFragment StoreEntitySet="Student">
+          <ScalarProperty Name="idStudent" ColumnName="idStudent" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="data_birth" ColumnName="data_birth" />
+          <ScalarProperty Name="Obrazovanie" ColumnName="Obrazovanie" />
+          <ScalarProperty Name="Adres" ColumnName="Adres" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="NBileta" ColumnName="NBileta" />
+          <ScalarProperty Name="id_group" ColumnName="id_group" />
+          <ScalarProperty Name="other_info" ColumnName="other_info" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="baseModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище baseModel.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище baseModel.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище baseModel.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище baseModel.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="baseModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище baseModel.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="baseModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище baseModel.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище baseModel.sp_upgraddiagrams" />
+  </EntityContainerMapping>
+</Mapping>
